@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'wemo-email-formatter
+
+  Sample SAM Template for wemo-email-formatter
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  HelloWorldBucket:
+    Properties:
+      BucketName: troesner-hello-world-bucket
+    Type: AWS::S3::Bucket
+  HelloWorldFunction:
+    Properties:
+      CodeUri: s3://troesner-lambda-artifacts/2820ff2465118393ff19923ee8b9d426
+      Events:
+        HelloWorldUpload:
+          Properties:
+            Bucket:
+              Ref: HelloWorldBucket
+            Events: s3:ObjectCreated:*
+          Type: S3
+      Handler: app.lambda_handler
+      Runtime: python3.8
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
